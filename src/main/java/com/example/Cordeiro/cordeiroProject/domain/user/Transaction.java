@@ -22,9 +22,11 @@ public class Transaction {
     private Long id ;
 
     @ManyToOne
+    @JoinColumn(name="sender_id")
     private User sender ;
 
     @ManyToOne
+    @JoinColumn(name="receiver_id")
     private User reveicer;
     private BigDecimal amount ;
 }
