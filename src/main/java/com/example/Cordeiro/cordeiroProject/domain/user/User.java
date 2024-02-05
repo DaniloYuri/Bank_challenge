@@ -1,13 +1,12 @@
 package com.example.Cordeiro.cordeiroProject.domain.user;
 
 
+
 import jakarta.persistence.*;
 
 import lombok.*;
 import org.antlr.v4.runtime.misc.NotNull;
-import org.hibernate.usertype.UserType;
-
-
+import com.example.Cordeiro.cordeiroProject.domain.user.UserType;
 import java.math.BigDecimal;
 import java.util.Objects;
 
@@ -33,7 +32,7 @@ public class User {
     private BigDecimal balance;
 
     @Enumerated(EnumType.STRING)
-    private UserType userType;
+    private  UserType userType;
 
 
     public User (){

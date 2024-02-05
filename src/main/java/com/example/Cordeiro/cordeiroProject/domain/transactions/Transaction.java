@@ -1,6 +1,7 @@
-package com.example.Cordeiro.cordeiroProject.domain.user;
+package com.example.Cordeiro.cordeiroProject.domain.transactions;
 
 
+import com.example.Cordeiro.cordeiroProject.domain.user.User;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
