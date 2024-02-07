@@ -40,25 +40,23 @@ public class TransactionService {
         userService.validateTransaction(sender, obj.value());
 
         boolean isAuthorized = this.authorizeTransaction(sender, obj.value());
-        if (!isAuthorized) {
+
+        if(!isAuthorized){
             throw new Exception("Transação não autorizada");
-
-        }
-
-        public boolean authorizeTransaction(User sender, BigDecimal value){
-            ResponseEntity<Map> authozirationResponse = restTemplate.getForEntity("https://run.mocky.io/v3/54dc2cf1-3add-45b5-b5a9-6bf7e7f1f4a6", Map.class);
-
-
-            if (authozirationResponse.getStatusCode() == HttpStatus.OK) {
-                String message = (String) authozirationResponse.getBody().get("message");
-                return "Autorizado".equalsIgnoreCase(message);
-            }
-
         }
 
     }
-}
 
+
+    public boolean authorizeTransaction(User sender, BigDecimal value) {
+        ResponseEntity<Map> authorizeResponse = restTemplate.getForEntity("https://run.mocky.io/v3/5794d450-d2e2-4412-8131-73d0293ac1cc", Map.class);
+
+        if (authorizeResponse.getStatusCode() == HttpStatus.OK) {
+            String message = (String) authorizeResponse.getBody().get("message");
+            return "Autorizado".equalsIgnoreCase(message);
+        } else return false;
+    }
+}
 
 
 
