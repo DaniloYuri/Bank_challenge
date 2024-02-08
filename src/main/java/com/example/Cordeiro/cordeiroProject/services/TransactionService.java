@@ -15,6 +15,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
 import java.math.BigDecimal;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.Map;
 
 import static jakarta.persistence.criteria.Predicate.BooleanOperator.AND;
@@ -44,6 +46,20 @@ public class TransactionService {
         if(!isAuthorized){
             throw new Exception("Transação não autorizada");
         }
+
+        Transaction newTransaction = new Transaction();
+        newTransaction.setAmount(obj.value());
+        newTransaction.setSender(sender);
+        newTransaction.setReveicer(receiver);
+        newTransaction.setTimestamp(LocalDateTime.now());
+
+
+        sender.setBalance(sender.getBalance().subtract(obj.value()));
+        receiver.setBalance(receiver.getBalance().add(obj.value()));
+
+        transactionRepository.save(newTransaction);
+        userService.saveUser(sender);
+        userService.saveUser(receiver);
 
     }
 
