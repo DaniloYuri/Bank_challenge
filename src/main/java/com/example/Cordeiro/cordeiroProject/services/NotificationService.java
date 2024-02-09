@@ -10,7 +10,7 @@ public class NotificationService {
 
 
 
-    @Autowired
+
     private RestTemplate restTemplate;
 
     public void sendNotification (User user , String message){
