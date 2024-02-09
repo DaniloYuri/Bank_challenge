@@ -3,6 +3,7 @@ package com.example.Cordeiro.cordeiroProject.services;
 
 import com.example.Cordeiro.cordeiroProject.domain.user.User;
 import com.example.Cordeiro.cordeiroProject.domain.user.UserType;
+import com.example.Cordeiro.cordeiroProject.dtos.UserDTO;
 import com.example.Cordeiro.cordeiroProject.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -38,5 +39,11 @@ public class UserService {
     public void saveUser (User obj ) {
         this.userRepository.save(obj);
 
+    }
+
+    public User createUser (UserDTO data) {
+        User  newUser = new User (data);
+        saveUser(newUser);
+        return  newUser;
     }
 }

@@ -2,6 +2,7 @@ package com.example.Cordeiro.cordeiroProject.domain.user;
 
 
 
+import com.example.Cordeiro.cordeiroProject.dtos.UserDTO;
 import jakarta.persistence.*;
 
 import lombok.*;
@@ -22,7 +23,7 @@ public class User {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
 
     private Long Id;
-    private String name;
+    private String firstName;
 
     private String lastName;
     @Column(unique = true)
@@ -30,11 +31,20 @@ public class User {
 
     private String password;
     @Column(unique = true)
-    private Integer Document;
+    private Integer document;
 
     private BigDecimal balance;
 
     @Enumerated(EnumType.STRING)
     private UserType userType;
+
+    public  User (UserDTO user ) {
+        this.firstName = user.firstName();
+        this.lastName = user.lastName();
+        this.email = user.email();
+        this.password = user.password();
+        this.balance = user.balance();
+        this.userType = getUserType();
+    }
 
 }
