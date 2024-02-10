@@ -7,8 +7,12 @@ import com.example.Cordeiro.cordeiroProject.dtos.UserDTO;
 import com.example.Cordeiro.cordeiroProject.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.RequestBody;
 
+import java.lang.reflect.Array;
 import java.math.BigDecimal;
+import java.util.Arrays;
+import java.util.List;
 
 
 @Service
@@ -31,13 +35,13 @@ public class UserService {
 
     }
 
-    public User findUserById(Long id) throws Exception {
+    public User findUser(Long id) throws Exception {
         return this.userRepository.findById(id).orElseThrow(() -> new Exception("Usuario não encontrato"));
 
     }
 
-    public void saveUser (User obj ) {
-        this.userRepository.save(obj);
+    public void saveUser (User user ) {
+        this.userRepository.save(user);
 
     }
 
@@ -45,5 +49,9 @@ public class UserService {
         User  newUser = new User (data);
         saveUser(newUser);
         return  newUser;
+    }
+
+    public List <User> getAllUsers (){
+        return this.userRepository.findAll();
     }
 }

@@ -31,36 +31,46 @@ public class TransactionService {
     @Autowired
     private UserService userService;
 
+@Autowired
+    private NotificationService notificationService;
 
+
+    @Autowired
     private RestTemplate restTemplate;
 
 
-    public void createTransaction(TransactionDTO obj) throws Exception {
-        User sender = this.userService.findUserById(obj.senderId());
-        User receiver = this.userService.findUserById(obj.receiverId());
+    public Transaction createTransaction(TransactionDTO transaction) throws Exception {
+        User sender = this.userService.findUser(transaction.senderId());
+        User receiver = this.userService.findUser(transaction.receiverId());
 
-        userService.validateTransaction(sender, obj.value());
+        userService.validateTransaction(sender, transaction.value());
 
-        boolean isAuthorized = this.authorizeTransaction(sender, obj.value());
+        boolean isAuthorized = this.authorizeTransaction(sender, transaction.value());
 
         if(!isAuthorized){
             throw new Exception("Transação não autorizada");
         }
 
         Transaction newTransaction = new Transaction();
-        newTransaction.setAmount(obj.value());
+        newTransaction.setAmount(transaction.value());
         newTransaction.setSender(sender);
         newTransaction.setReveicer(receiver);
         newTransaction.setTimestamp(LocalDateTime.now());
 
 
-        sender.setBalance(sender.getBalance().subtract(obj.value()));
-        receiver.setBalance(receiver.getBalance().add(obj.value()));
+        sender.setBalance(sender.getBalance().subtract(transaction.value()));
+        receiver.setBalance(receiver.getBalance().add(transaction.value()));
 
         transactionRepository.save(newTransaction);
         userService.saveUser(sender);
         userService.saveUser(receiver);
 
+
+
+        this.notificationService.sendNotification(sender,"Transação Realizada com sucesso");
+        this.notificationService.sendNotification(receiver,"Transação Recebida Com sucesso");
+
+        return newTransaction;
     }
 
 

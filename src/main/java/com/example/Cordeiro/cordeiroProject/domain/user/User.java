@@ -15,14 +15,15 @@ import java.util.Objects;
 @Getter
 @Setter
 @AllArgsConstructor
+@NoArgsConstructor
 @Table(name="users")
 
 public class User {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
 
-    private Long Id;
     private String firstName;
 
     private String lastName;
@@ -31,7 +32,7 @@ public class User {
 
     private String password;
     @Column(unique = true)
-    private Integer document;
+    private String document;
 
     private BigDecimal balance;
 
@@ -44,7 +45,8 @@ public class User {
         this.email = user.email();
         this.password = user.password();
         this.balance = user.balance();
-        this.userType = getUserType();
+        this.userType =user.userType();
+        this.document = user.document();
     }
 
 }
